@@ -13,6 +13,14 @@ app.use('/login', (req, res) => {
     });
 });
 
+app.use((req, res) => {
+    res.statusCode = 500;
+    res.send({
+        StatusCode: res.statusCode,
+        Message: 'Select a valid endpoint'
+    })
+})
+
 app.listen(PORT, () => {
     console.log(`API is running on port localhost:${PORT}`)
 })
