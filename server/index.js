@@ -7,7 +7,8 @@ const PORT = app_port || 5002;
 
 app.use(cors());
 
-app.use('/login', (req, res) => {
+app.post('/login', (req, res) => {
+    console.log(`passed @ ${new Date().getTime()}`)
     res.send({
         token: 'test123'
     });
