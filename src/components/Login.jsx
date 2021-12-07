@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 async function loginUser(credentials) 
 {
@@ -15,6 +16,7 @@ async function loginUser(credentials)
 export default function Login({ setToken }) {
   const [userName, setUsername] = useState();
   const [password, setPassword] = useState();
+  const navigate = useNavigate();
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -22,6 +24,7 @@ export default function Login({ setToken }) {
       userName, password
     });
     setToken(token);
+    navigate('/dashboard');
   }
 
   return(
