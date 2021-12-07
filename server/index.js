@@ -1,19 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 const { app_port } = require('../config');
+const UserRoutes = require('./routes/userRoutes')
 
 const app = express();
 const PORT = app_port || 5002;
 
 app.use(cors());
 
-app.post('/login', (req, res) => {
-    console.log(`passed @ ${new Date().getTime()}`)
-    res.send({
-        token: 'test123'
-    });
-});
+app.use('/login', UserRoutes);
 
+/*Default response in case you're looking for an endpoint that doesn't exist*/
 app.use((req, res) => {
     res.statusCode = 500;
     res.send({
