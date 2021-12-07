@@ -1,12 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 const { app_port } = require('../config');
+const bodyParser = require('body-parser');
 const UserRoutes = require('./routes/userRoutes')
 
 const app = express();
 const PORT = app_port || 5002;
 
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.raw());
 
 app.use('/login', UserRoutes);
 
