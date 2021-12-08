@@ -4,10 +4,29 @@ const users = require('../database/models/users');
 
 exports.login = function(req, res)
 {
-    console.log(`passed @ ${new Date().getTime()}`)
-    res.send({
-        token: 'test123'
-    });
+    const { email, password } = req.body;
+    users.findOne({email: email, password: password}).exec((err, data) => {
+        if(err) {
+            res.send({
+                StatusCode: 400,
+                Message: "Something went wrong"
+            });
+        }
+        else if(data) {
+            res.send({
+                StatusCode: 200,
+                Message: "OK",
+                token: "token123"
+                //TODO: token generation and set an expire time
+            });
+        }
+        else {
+            res.send({
+                StatusCode: 404,
+                Message: "User not found"
+            })
+        }
+    })
 }
 
 exports.createUser = async function(req, res) {
@@ -39,14 +58,47 @@ exports.createUser = async function(req, res) {
                 })
         }
     })
-    
-    
-    
-    
-    
 }
+
+exports.updatePassword = function(req, res) {
+    const { email, password, newPassword } = req.body;
+    users.findOne({email: email, password: password}).exec((err, data) => {
+        if(err) {
+            res.send({
+                StatusCode: 400,
+                Message: "Something went wrong"
+            });
+        }
+        else if(data) {
+            if(password === newPassword) {
+                res.send({
+                    StatusCode: 400,
+                    Message: "New password cannot be the same as the previous"
+                })
+            }
+            else {
+                users.updateOne(
+                    { "email": email }, { $set: {"password": newPassword}}
+                ).then(result => {
+                    if(result.matchedCount > 0) {
+                        res.send({
+                            StatusCode: 200,
+                            Message: "Success",
+                            Result: {...result}
+                        })
+                    }
+                })
+            } 
+        }
+        else {
+            res.send({
+                StatusCode: 404,
+                Message: "User not found"
+            })
+        }
+    })
+}
+
 /*
-TODO: get an user based on the username and password
-TODO: create a new user
-TODO: update an user password
+TODO: decode and encode user passwords (passport or jwt)
 */

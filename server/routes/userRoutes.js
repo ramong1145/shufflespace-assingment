@@ -6,4 +6,6 @@ UserRoutes.post('/', userController.login);
 
 UserRoutes.post('/signup', userController.createUser);
 
+UserRoutes.put('/changePassword', userController.updatePassword);
+
 module.exports = UserRoutes;
