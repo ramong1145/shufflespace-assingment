@@ -2,8 +2,7 @@ const DbConnection = require('../database/connection').Get();
 const generateUUID = require('../../utils/StringUtils');
 const users = require('../database/models/users');
 
-exports.login = function(req, res)
-{
+exports.login = function(req, res) {
     const { email, password } = req.body;
     users.findOne({email: email, password: password}).exec((err, data) => {
         if(err) {

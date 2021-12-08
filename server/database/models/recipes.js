@@ -2,15 +2,11 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
-var IngredientSchema = new Schema({
-    name: String, 
-    amount: Number
-});
-
 var RecipeSchema = new Schema({
     id: String,
-    name: String, 
-    ingredients: [{type: IngredientSchema, default: 1}],
+    title: String, 
+    description: String,
+    duration: Number,
     creator: String
 });
 
