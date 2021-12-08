@@ -14,4 +14,6 @@ var RecipeSchema = new Schema({
     creator: String
 });
 
-mongoose.model('recipe', RecipeSchema)
+mongoose.model('recipes', RecipeSchema)
+
+module.exports = mongoose.model('recipes')

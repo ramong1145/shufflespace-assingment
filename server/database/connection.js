@@ -1,5 +1,5 @@
 const { db_user, db_password } = require('../../config');
-const MongoClient = require('mongodb').MongoClient;
+var mongoose = require('mongoose');
 
 const DbConnection = function () {
     var databaseConnection = null;
@@ -7,8 +7,15 @@ const DbConnection = function () {
 
     async function DbConnect() {
         try {
-            let connection_uri = `mongodb+srv://${db_user}:${db_password}@graphql-cluster-test.802oy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-            let _databaseConnection = await MongoClient.connect(connection_uri);
+            let connection_uri = `mongodb+srv://${db_user}:${db_password}@graphql-cluster-test.802oy.mongodb.net/shufflespace?retryWrites=true&w=majority`;
+            _databaseConnection = mongoose.connect(connection_uri,
+            {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            dbName: 'shufflespace'
+            }).then(
+                console.log(`Connected to mongo_shufflespace: ${mongoose.connection.readyState}`)
+            );
             return _databaseConnection
         } catch (e) {
             return e;
@@ -20,7 +27,7 @@ const DbConnection = function () {
             if (instance > 0) {
                 return databaseConnection;
             } else {
-                console.log(`getting new db connection`);
+                console.log(`Getting a new db connection`);
                 instance ++;
                 databaseConnection = DbConnect();
                 return databaseConnection; 
