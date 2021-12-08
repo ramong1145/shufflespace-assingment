@@ -5,11 +5,10 @@ const DbConnection = function () {
     var databaseConnection = null;
     var instance = 0;
 
-    function DbConnect() {
+    async function DbConnect() {
         try {
             let connection_uri = `mongodb+srv://${db_user}:${db_password}@graphql-cluster-test.802oy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-            let _databaseConnection = MongoClient.connect(connection_uri);
-            console.log(_databaseConnection);
+            let _databaseConnection = await MongoClient.connect(connection_uri);
             return _databaseConnection
         } catch (e) {
             return e;
@@ -18,14 +17,13 @@ const DbConnection = function () {
 
    function Get() {
         try {
-            instance++; 
-
-            if (!databaseConnection) {
+            if (instance > 0) {
                 return databaseConnection;
             } else {
                 console.log(`getting new db connection`);
+                instance ++;
                 databaseConnection = DbConnect();
-                return db; 
+                return databaseConnection; 
             }
         } catch (e) {
             return e;
@@ -37,6 +35,5 @@ const DbConnection = function () {
     }
     
 }
-
 
 module.exports = DbConnection();

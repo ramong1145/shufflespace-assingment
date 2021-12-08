@@ -1,4 +1,4 @@
-const DbConnection = require('../database/connection');
+const DbConnection = require('../database/connection').Get();
 const generateUUID = require('../../utils/StringUtils');
 
 exports.login = function(req, res)
@@ -9,10 +9,10 @@ exports.login = function(req, res)
     });
 }
 
-exports.createUser = function(req, res)
+exports.createUser = async function(req, res)
 {
+    console.log(DbConnection)
     const { email, password } = req.body;
-    console.log(generateUUID);
     res.send("Ok")
     
 }
