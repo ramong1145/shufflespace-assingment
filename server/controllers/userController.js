@@ -1,5 +1,5 @@
 const DbConnection = require('../database/connection');
-const { generateUUID } = require('../../utils/StringUtils');
+const generateUUID = require('../../utils/StringUtils');
 
 exports.login = function(req, res)
 {
@@ -12,6 +12,7 @@ exports.login = function(req, res)
 exports.createUser = function(req, res)
 {
     const { email, password } = req.body;
+    console.log(generateUUID);
     res.send("Ok")
     
 }
