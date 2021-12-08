@@ -1,14 +1,10 @@
-const resourceUtil = require('../../utils/ResourcesUtil');
+const DbConnection = require('../database/connection').Get();
+const resourceUtil = require('../../src/utils/ResourcesUtil');
 const recipes = require('../database/models/recipes');
-
-exports.getAllRecipes = function(req, res) {
-    res.send({
-        image: resourceUtil.getRandomFoodImage()
-    })
-}
+const short = require('short-uuid');
 
 exports.getByUser = function(req, res) {
-    const { userId } = req.route.query.userId
+    const { userId } = req.params
     recipes.find({creator: userId}, (err, data) => {
         if(err) {
             res.send({
@@ -27,8 +23,20 @@ exports.getByUser = function(req, res) {
 }
 
 exports.createRecipe = function(req, res) {
+    const { title, description, duration, creator } = req.body;
+    recipes.create({id: short.generate() ,title, description, duration, creator})
+        .then(result => {
+            res.send({
+                StatusCode: 200,
+                Message: "Created",
+                Result: {...result._doc}
+            })
+        })
+}
+
+exports.updateRecipe = function(req, res) {
     const { title, description, duration } = req.body;
-    const { recipeId } = req.route.query.recipeId;
+    const { recipeId } = req.params;
 
     recipes.findOne({id: recipeId}).exec((err, data) => {
         if(err) {
@@ -59,29 +67,8 @@ exports.createRecipe = function(req, res) {
     })
 }
 
-exports.updateRecipe = function(req, res) {
-    const { title, description, duration } = req.body
-    const { userId } = req.route.query.userId
-    recipes.find({creator: userId}, (err, data) => {
-        if(err) {
-            res.send({
-                StatusCode: 400,
-                Message: "Something went wrong"
-            });
-        }
-        else if(data) {
-            res.send({
-                StatusCode: 200, 
-                Message: 'Ok',
-                Result: {...data}
-            })
-        }
-    })
-}
-
-
 exports.deleteRecipe = function(req, res) {
-    const { recipeId } = req.route.query.recipeId
+    const { recipeId } = req.params
     recipes.deleteOne({id: recipeId}, (err) => {
         if(err) {
             res.send({

@@ -1,6 +1,6 @@
 const DbConnection = require('../database/connection').Get();
-const generateUUID = require('../../utils/StringUtils');
 const users = require('../database/models/users');
+const short = require('short-uuid');
 
 exports.login = function(req, res) {
     const { email, password } = req.body;
@@ -44,7 +44,7 @@ exports.createUser = async function(req, res) {
             })
         }
         else {
-            users.create({email, password})
+            users.create({id: short.generate(), email, password})
                 .then(result => {
                     res.send({
                         StatusCode: 200,
