@@ -16,7 +16,7 @@ exports.getByUser = function(req, res) {
             res.send({
                 StatusCode: 200, 
                 Message: 'Ok',
-                Result: {...data}
+                Result: data
             })
         }
     })

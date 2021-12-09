@@ -1,32 +1,43 @@
 import React, { useState, useEffect } from 'react'
-import { getRandomFoodImage } from '../utils/ResourcesUtil';
+import { fetchFoodImage } from '../utils/ResourcesUtil';
 import RecipeCard from './RecipeCard';
 
 export default function Dashboard() {
     const [recipes, setRecipes] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:5001/recipe/search/${localStorage.getItem('token')}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(data => setRecipes(data.json));
+        (async () => {
+            const response = await fetch(`http://localhost:5001/recipe/search/${localStorage.getItem('token').replace(/['"]+/g, '')}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors'
+            })
+            response.json().then(data => {
+                setRecipes(data.Result)
+            })
+        })()
     }, []);
 
     return (
         <div>
-            <h1> Dashboard page </h1>
-            {recipes.map(r => {
-                <RecipeCard
-                    key={r.id}
-                    title={r.title}
-                    description={r.description}
-                    duration={r.duration}
-                    image={getRandomFoodImage()}
-                />
-            })}
+            <div>
+                <h1> Dashboard page </h1>
+            </div>
+            <div className='dashboard'>
+                {recipes.map(r => {
+                    return(
+                        <RecipeCard
+                            key={r.id}
+                            title={r.title}
+                            description={r.description}
+                            duration={r.duration}
+                            image={"https://foodish-api.herokuapp.com/images/samosa/samosa10.jpg"}
+                        />
+                    )
+                })}
+            </div>
         </div>
     )
 }
