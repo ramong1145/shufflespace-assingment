@@ -14,14 +14,14 @@ async function loginUser(credentials)
   .then(data => data.json());
 }
 export default function Login({ setToken }) {
-  const [userName, setUsername] = useState();
+  const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const navigate = useNavigate();
 
   const handleSubmit = async e => {
     e.preventDefault();
     const response = await loginUser({
-      userName, password
+      email, password
     });
 
     if(response.token) {
@@ -36,7 +36,7 @@ export default function Login({ setToken }) {
         <form onSubmit={handleSubmit}>
         <label>
             <p>Username</p>
-            <input type="text" onChange={e => setUsername(e.target.value)} />
+            <input type="text" onChange={e => setEmail(e.target.value)} />
         </label>
         <label>
             <p>Password</p>

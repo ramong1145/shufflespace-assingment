@@ -15,7 +15,7 @@ exports.login = function(req, res) {
             res.send({
                 StatusCode: 200,
                 Message: "OK",
-                token: "token123"
+                token: data.id
                 //TODO: token generation and set an expire time
             });
         }

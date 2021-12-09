@@ -9,6 +9,7 @@ const app = express();
 const PORT = app_port || 5002;
 
 app.use(cors());
+app.options('*', cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.raw());
