@@ -22,9 +22,6 @@ export default function Dashboard() {
 
     return (
         <div>
-            <div>
-                <h1> Dashboard page </h1>
-            </div>
             <div className='dashboard'>
                 {recipes.map(r => {
                     return(

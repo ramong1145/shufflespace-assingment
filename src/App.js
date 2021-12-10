@@ -4,6 +4,7 @@ import Dashboard from './components/Dashboard'
 import Login from './components/Login'
 import { Route, Routes } from 'react-router-dom';
 import useToken from './hooks/useToken';
+import Layout from './components/Layout';
 
 
 function App() {
@@ -16,9 +17,11 @@ function App() {
 
   return (
     <div className="App">
-        <Routes>
-          <Route path='/dashboard' element={<Dashboard />} />
-        </Routes>
+        <Layout>
+          <Routes>
+            <Route path='/dashboard' element={<Dashboard />} />
+          </Routes>
+        </Layout>
     </div>
   );
 }

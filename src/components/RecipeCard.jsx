@@ -14,7 +14,7 @@ export default function ActionAreaCard(props) {
   const [visible, setVisible] = useState({display: 'none', flexDirection: 'row-reverse'});
   
   function toggleButtons(e) {
-    const display = e.type == 'mouseenter' ? 'flex' : 'none';
+    const display = e.type === 'mouseenter' ? 'flex' : 'none';
     setVisible({display, flexDirection: 'row-reverse'})
   }
 
@@ -26,7 +26,7 @@ export default function ActionAreaCard(props) {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardActionArea onMouseEnter={toggleButtons} onMouseLeave={toggleButtons}>
-        <div style={visible}>
+        <div style={visible} >
           <ButtonGroup size="medium">
             {buttons}
           </ButtonGroup>
