@@ -82,7 +82,7 @@ export default function Layout({ children }) {
                 <div className={classes.toolbar}>
                     {children}
                 </div>
-                {displayForm && <RecipeCard />}
+                {displayForm && <RecipeCard mode='creation' />}
             </div>
         </div>
     )

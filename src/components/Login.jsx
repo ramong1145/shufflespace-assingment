@@ -27,7 +27,7 @@ export default function Login({ setToken }) {
       email, password
     });
     if(response.token) {
-        store.dispatch(setTokenAction(response.token))
+      store.dispatch(setTokenAction(response.token))
       setToken(response.token);
       navigate('/dashboard');
     }

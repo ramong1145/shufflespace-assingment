@@ -27,7 +27,6 @@ const DbConnection = function () {
             if (instance > 0) {
                 return databaseConnection;
             } else {
-                console.log(`Getting a new db connection`);
                 instance ++;
                 databaseConnection = DbConnect();
                 return databaseConnection; 

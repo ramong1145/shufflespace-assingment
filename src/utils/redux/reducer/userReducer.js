@@ -4,7 +4,6 @@ import initialState from './initialState';
 
 const setTokenReducer = handleActions({
     [types.SET_TOKEN]: (state, action) => {
-        console.log(`reducer: ${state}`)
         return {
             ...state,
             token: action.token

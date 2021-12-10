@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 export default function Dashboard() {
     const [recipes, setRecipes] = useState([]);
     let serviceProviders = useSelector(state => state);
-    console.log(serviceProviders);
+    const token = serviceProviders.setTokenReducer.token
 
     useEffect(() => {
         (async () => {
@@ -14,7 +14,7 @@ export default function Dashboard() {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-access-token': `${localStorage.getItem('token').replace(/['"]+/g, '')}`
+                    'x-access-token': token
                 },
                 mode: 'cors',
             })
@@ -22,7 +22,50 @@ export default function Dashboard() {
                 setRecipes(data.Result)
             })
         })()
-    }, []);
+    }, [recipes]);
+
+    function handleOnDelete(id) {
+        (async () => {
+            const response = await fetch(`http://localhost:5001/recipe/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json', 
+                    'x-access-token': token
+                },
+                mode: 'cors'
+            })
+            response.json().then(data => {
+                if(data.StatusCode == 200) {
+                    setRecipes(
+                        recipes.filter(i => {
+                            return i.id !== id
+                        })
+                    )
+                }
+            })
+        })()
+    }
+
+    function handleOnSave(id, item) {
+        (async () => {
+            const response = await fetch(`http://localhost:5001/recipe/${id}`, {
+                method: 'PUT', 
+                headers: {
+                    'Content-Type': 'application/json', 
+                    'x-access-token': token
+                },
+                body : JSON.stringify(item)
+            })
+            response.json().then(data => {
+                if(data.Result.modifiedCount > 0) {
+                    const index = recipes.findIndex(i => i.id == id);
+                    recipes[index].title = item.title;
+                    recipes[index].description = item.description;
+                    recipes[index].duration = item.duration;
+                }
+            })
+        })()
+    }
 
     return (
         <div>
@@ -35,6 +78,8 @@ export default function Dashboard() {
                             title={r.title}
                             description={r.description}
                             duration={r.duration}
+                            onClose={handleOnDelete}
+                            onSave={handleOnSave}
                             image={"https://foodish-api.herokuapp.com/images/samosa/samosa10.jpg"}
                         />
                     )

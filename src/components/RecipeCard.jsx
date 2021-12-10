@@ -13,23 +13,18 @@ import TextField from '@mui/material/TextField';
 import CloseIcon from '@mui/icons-material/Close';
 
 export default function ActionAreaCard(props) {
-  const { id, image, title, description, duration, onClose } = props;
-  const [visible, setVisible] = useState({display: 'none', flexDirection: 'row-reverse'});
+  const { id, image, title, description, duration, onDelete, onSave, mode } = props;
+  const [toggleOptions, setToggleOptions] = useState({display: 'none', flexDirection: 'row-reverse'});
   const [isEditing, setIsEditing] = useState(false);
-  
+  const [updateData, setUpdateData] = useState({title, description, duration})
+
   function toggleButtons(e) {
     const display = e.type === 'mouseenter' ? 'flex' : 'none';
-    setVisible({display, flexDirection: 'row-reverse'})
-  }
-
-  function handleDelete(e) {
+    setToggleOptions({display, flexDirection: 'row-reverse'})
   }
 
   function handleEdit(e) {
     setIsEditing(!isEditing);
-  }
-
-  function handleSave(e) {
   }
 
   function handleCancel(e) {
@@ -38,14 +33,14 @@ export default function ActionAreaCard(props) {
 
   const buttons = [
     <IconButton key="edit" onClick={handleEdit}> <EditIcon /> </IconButton>,
-    <IconButton key="delete" onClick={handleDelete}> <DeleteIcon /> </IconButton>,
-    <IconButton key="save" onClick={handleSave}> <SaveIcon /> </IconButton>,
+    <IconButton key="delete" onClick={() => onDelete(id)}> <DeleteIcon /> </IconButton>,
+    <IconButton key="save" onClick={() => onSave(id, updateData)}> <SaveIcon /> </IconButton>,
     <IconButton key="cancel" onClick={handleCancel}> <CloseIcon /> </IconButton>
   ]
 
   return (
     <Card sx={{ maxWidth: 345 }} onMouseEnter={toggleButtons} onMouseLeave={toggleButtons}>
-      <div style={visible} >
+      <div style={toggleOptions} >
         <ButtonGroup size="medium">
           {!isEditing ? buttons[0] : buttons[2]}
           {!isEditing ? buttons[1] : buttons[3]}
@@ -60,7 +55,7 @@ export default function ActionAreaCard(props) {
         />
         <CardContent>
           {
-            !isEditing ?
+            !isEditing || (mode === 'creation') ?
             <div>
               <Typography gutterBottom variant="h5" component="div">
                 {title} 
@@ -82,15 +77,15 @@ export default function ActionAreaCard(props) {
               </div>
             </div> 
             : <div>
-              <TextField id="standard-basic" label="Standard" variant="standard" />
+              <TextField id="standard-basic" label="Standard" variant="standard" onInput={(e) => setUpdateData({...updateData, title: e.target.value})} placeholder={title}/>
               <div className='card-details' style={{display:'inline-block'}}>
                 <table>
                     <tr>
                       <td style={{textAlign:'justify', paddingRight:'30px'}}>
-                      <TextField id="outlined-textarea" label="Multiline Placeholder" placeholder="Placeholder" multiline />
+                      <TextField id="outlined-textarea" label="Multiline Placeholder" placeholder="Placeholder" multiline onInput={(e) => setUpdateData({...updateData, description: e.target.value})} placeholder={description}/>
                       </td>
                       <td style={{textAlign:'center', fontSize:'15px', wordSpacing:'0.5px'}}>
-                      <TextField id="outlined-number" label="Number" type="number" InputLabelProps={{shrink: true}} />
+                      <TextField id="outlined-number" label="Number" type="number" InputLabelProps={{shrink: true}} onInput={(e) => setUpdateData({...updateData, duration: e.target.value})} placeholder={duration}/>
                         <p> mins </p>
                       </td>
                     </tr>

@@ -14,8 +14,6 @@ export default function useToken() {
   const saveToken = userToken => {
     setToken(userToken);
     return dispatch => dispatch(setTokenAction(userToken))
-    //dispatch(copyWorkOrderData(json))
-    //localStorage.setItem('token', JSON.stringify(userToken));
   }
 
   return {
