@@ -13,7 +13,7 @@ import TextField from '@mui/material/TextField';
 import CloseIcon from '@mui/icons-material/Close';
 
 export default function ActionAreaCard(props) {
-  const { id, image, title, description, duration } = props;
+  const { id, image, title, description, duration, onClose } = props;
   const [visible, setVisible] = useState({display: 'none', flexDirection: 'row-reverse'});
   const [isEditing, setIsEditing] = useState(false);
   

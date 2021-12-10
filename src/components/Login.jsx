@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import store from '../utils/redux/store';
+import { setTokenAction } from '../utils/redux/actions/userActions';
 
 async function loginUser(credentials) 
 {
@@ -18,13 +20,14 @@ export default function Login({ setToken }) {
   const [password, setPassword] = useState();
   const navigate = useNavigate();
 
+
   const handleSubmit = async e => {
     e.preventDefault();
     const response = await loginUser({
       email, password
     });
-
     if(response.token) {
+        store.dispatch(setTokenAction(response.token))
       setToken(response.token);
       navigate('/dashboard');
     }

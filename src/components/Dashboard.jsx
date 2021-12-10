@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { fetchFoodImage } from '../utils/ResourcesUtil';
 import RecipeCard from './RecipeCard';
+import { useSelector } from 'react-redux'
 
 export default function Dashboard() {
     const [recipes, setRecipes] = useState([]);
+    let serviceProviders = useSelector(state => state);
+    console.log(serviceProviders);
 
     useEffect(() => {
         (async () => {

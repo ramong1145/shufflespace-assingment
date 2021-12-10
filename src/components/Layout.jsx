@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -9,6 +9,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import {makeStyles} from '@mui/styles';
+import RecipeCard from './RecipeCard'
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => {
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme) => {
 
 export default function Layout({ children }) {
     const classes = useStyles();
+    const [displayForm, setDisplayForm] = useState(false);
     
     const menuItems = [
         {
@@ -67,7 +69,7 @@ export default function Layout({ children }) {
                 <List>
                     {menuItems.map(item => {
                         return(
-                            <ListItem button key={item.text} >
+                            <ListItem button key={item.text} onClick={() => setDisplayForm(true)} >
                                 <ListItemIcon> {item.icon} </ListItemIcon>
                                 <ListItemText primary={item.text} /> 
                             </ListItem>
@@ -80,6 +82,7 @@ export default function Layout({ children }) {
                 <div className={classes.toolbar}>
                     {children}
                 </div>
+                {displayForm && <RecipeCard />}
             </div>
         </div>
     )
