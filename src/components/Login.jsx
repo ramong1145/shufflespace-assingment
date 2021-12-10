@@ -18,6 +18,7 @@ async function loginUser(credentials)
 export default function Login({ setToken }) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [isRegistering, setIsRegistering] = useState(false);
   const navigate = useNavigate();
 
 
@@ -33,9 +34,32 @@ export default function Login({ setToken }) {
     }
   }
 
+  const handleNewRegistry = () => {
+    setIsRegistering(!isRegistering)
+  }
+
+  function handleCreateLogin() {
+    (async () => {
+      const response = await fetch('http://localhost:5001/login/signup', {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email, password})
+      })
+      response.json().then(data => {
+        console.log(data)
+        if(data.StatusCode == 200) {
+          setIsRegistering(!isRegistering);
+
+        }
+      })
+    })()
+  }
+
   return(
     <div className='login-form'>
-        <h3> Please Log In </h3>
+        <h3> {!isRegistering ? "Enter your new subscription credentials" : "Please Login"}</h3>
         <form onSubmit={handleSubmit}>
         <label>
             <p>Username</p>
@@ -46,9 +70,14 @@ export default function Login({ setToken }) {
             <input type="password" onChange={e => setPassword(e.target.value)} />
         </label>
         <div>
-            <button type="submit">Submit</button>
+            {isRegistering && <button type="submit">Submit</button>}
         </div>
         </form>
+        <br />
+        {isRegistering && <button onClick={handleNewRegistry}> Create a new Login </button>}
+        <br />
+        {!isRegistering && <button onClick={handleCreateLogin}> Create </button>}
+        {!isRegistering && <button onClick={handleNewRegistry}> Cancel </button>}
     </div>
   )
 }
