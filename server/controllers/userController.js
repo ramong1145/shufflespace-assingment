@@ -1,6 +1,7 @@
 const DbConnection = require('../database/connection').Get();
 const users = require('../database/models/users');
 const short = require('short-uuid');
+const jwt = require('jsonwebtoken');
 
 exports.login = function(req, res) {
     const { email, password } = req.body;
@@ -15,8 +16,8 @@ exports.login = function(req, res) {
             res.send({
                 StatusCode: 200,
                 Message: "OK",
-                token: data.id
-                //TODO: token generation and set an expire time
+                token: data.token,
+                id: data.id
             });
         }
         else {
@@ -44,7 +45,10 @@ exports.createUser = async function(req, res) {
             })
         }
         else {
-            users.create({id: short.generate(), email, password})
+            const token = jwt.sign({'email_id': email }, 'Stack', {
+                expiresIn: '365d'
+            });
+            users.create({id: short.generate(), email, password, token})
                 .then(result => {
                     res.send({
                         StatusCode: 200,

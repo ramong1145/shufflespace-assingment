@@ -2,7 +2,7 @@ const express = require('express');
 const RecipesRoutes = express.Router();
 const recipesController = require('../controllers/recipeController');
 
-RecipesRoutes.get('/search/:userId', recipesController.getByUser);
+RecipesRoutes.get('/search', recipesController.getByUser);
 
 RecipesRoutes.post('/post', recipesController.createRecipe);
 

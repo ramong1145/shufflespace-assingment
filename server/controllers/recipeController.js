@@ -2,10 +2,12 @@ const DbConnection = require('../database/connection').Get();
 const resourceUtil = require('../../src/utils/ResourcesUtil');
 const recipes = require('../database/models/recipes');
 const short = require('short-uuid');
+const jwt = require('jsonwebtoken');
+const { secret } = require('../../config');
 
 exports.getByUser = function(req, res) {
-    const { userId } = req.params
-    recipes.find({creator: userId}, (err, data) => {
+    const decoded = jwt.decode(req.headers['x-access-token']);
+    recipes.find({creator: decoded.email_id}, (err, data) => {
         if(err) {
             res.send({
                 StatusCode: 400,

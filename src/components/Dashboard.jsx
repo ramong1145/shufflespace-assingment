@@ -7,12 +7,13 @@ export default function Dashboard() {
 
     useEffect(() => {
         (async () => {
-            const response = await fetch(`http://localhost:5001/recipe/search/${localStorage.getItem('token').replace(/['"]+/g, '')}`, {
+            const response = await fetch(`http://localhost:5001/recipe/search`, {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'x-access-token': `${localStorage.getItem('token').replace(/['"]+/g, '')}`
                 },
-                mode: 'cors'
+                mode: 'cors',
             })
             response.json().then(data => {
                 setRecipes(data.Result)
@@ -27,6 +28,7 @@ export default function Dashboard() {
                     return(
                         <RecipeCard
                             key={r.id}
+                            id={r.id}
                             title={r.title}
                             description={r.description}
                             duration={r.duration}

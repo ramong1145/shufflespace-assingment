@@ -5,5 +5,6 @@ dotenv.config();
 module.exports = {
     app_port: process.env.APP_PORT,
     db_user: process.env.DB_USER,
-    db_password: process.env.DB_PASSWORD
+    db_password: process.env.DB_PASSWORD,
+    secret: process.env.SECRET
 }
