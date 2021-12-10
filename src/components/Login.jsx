@@ -18,7 +18,7 @@ async function loginUser(credentials)
 export default function Login({ setToken }) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [isRegistering, setIsRegistering] = useState(false);
+  const [isLoggingIn, setisLoggingIn] = useState(true);
   const navigate = useNavigate();
 
 
@@ -35,7 +35,7 @@ export default function Login({ setToken }) {
   }
 
   const handleNewRegistry = () => {
-    setIsRegistering(!isRegistering)
+    setisLoggingIn(!isLoggingIn)
   }
 
   function handleCreateLogin() {
@@ -49,8 +49,8 @@ export default function Login({ setToken }) {
       })
       response.json().then(data => {
         console.log(data)
-        if(data.StatusCode == 200) {
-          setIsRegistering(!isRegistering);
+        if(data.StatusCode === 200) {
+          setisLoggingIn(!isLoggingIn);
 
         }
       })
@@ -59,7 +59,7 @@ export default function Login({ setToken }) {
 
   return(
     <div className='login-form'>
-        <h3> {!isRegistering ? "Enter your new subscription credentials" : "Please Login"}</h3>
+        <h3> {!isLoggingIn ? "Enter your new subscription credentials" : "Please Login"}</h3>
         <form onSubmit={handleSubmit}>
         <label>
             <p>Username</p>
@@ -70,14 +70,14 @@ export default function Login({ setToken }) {
             <input type="password" onChange={e => setPassword(e.target.value)} />
         </label>
         <div>
-            {isRegistering && <button type="submit">Submit</button>}
+            {isLoggingIn && <button type="submit">Submit</button>}
         </div>
         </form>
         <br />
-        {isRegistering && <button onClick={handleNewRegistry}> Create a new Login </button>}
+        {isLoggingIn && <button onClick={handleNewRegistry}> Create a new Login </button>}
         <br />
-        {!isRegistering && <button onClick={handleCreateLogin}> Create </button>}
-        {!isRegistering && <button onClick={handleNewRegistry}> Cancel </button>}
+        {!isLoggingIn && <button onClick={handleCreateLogin}> Create </button>}
+        {!isLoggingIn && <button onClick={handleNewRegistry}> Cancel </button>}
     </div>
   )
 }

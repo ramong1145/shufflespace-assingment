@@ -12,8 +12,8 @@ import SaveIcon from '@mui/icons-material/Save';
 import TextField from '@mui/material/TextField';
 import CloseIcon from '@mui/icons-material/Close';
 
-export default function ActionAreaCard(props) {
-  const { id, image, title, description, duration, onDelete, onSave, mode } = props;
+export default function RecipeCard(props) {
+  const { id, image, title, description, duration, onDelete, onSave } = props;
   const [toggleOptions, setToggleOptions] = useState({display: 'none', flexDirection: 'row-reverse'});
   const [isEditing, setIsEditing] = useState(false);
   const [updateData, setUpdateData] = useState({title, description, duration})
@@ -23,11 +23,11 @@ export default function ActionAreaCard(props) {
     setToggleOptions({display, flexDirection: 'row-reverse'})
   }
 
-  function handleEdit(e) {
+  function handleEdit() {
     setIsEditing(!isEditing);
   }
 
-  function handleCancel(e) {
+  function handleCancel() {
     setIsEditing(false);
   }
 
@@ -55,7 +55,7 @@ export default function ActionAreaCard(props) {
         />
         <CardContent>
           {
-            !isEditing || (mode === 'creation') ?
+            !isEditing ?
             <div>
               <Typography gutterBottom variant="h5" component="div">
                 {title} 
@@ -77,15 +77,15 @@ export default function ActionAreaCard(props) {
               </div>
             </div> 
             : <div>
-              <TextField id="standard-basic" label="Standard" variant="standard" onInput={(e) => setUpdateData({...updateData, title: e.target.value})} placeholder={title}/>
+              <TextField id="standard-basic" label="Standard" variant="standard" onInput={(e) => setUpdateData({...updateData, title: e.target.value})} placeholder={title} />
               <div className='card-details' style={{display:'inline-block'}}>
                 <table>
                     <tr>
                       <td style={{textAlign:'justify', paddingRight:'30px'}}>
-                      <TextField id="outlined-textarea" label="Multiline Placeholder" placeholder="Placeholder" multiline onInput={(e) => setUpdateData({...updateData, description: e.target.value})} placeholder={description}/>
+                      <TextField id="outlined-textarea" label="Multiline Placeholder" multiline onInput={(e) => setUpdateData({...updateData, description: e.target.value})} placeholder={description} /> 
                       </td>
                       <td style={{textAlign:'center', fontSize:'15px', wordSpacing:'0.5px'}}>
-                      <TextField id="outlined-number" label="Number" type="number" InputLabelProps={{shrink: true}} onInput={(e) => setUpdateData({...updateData, duration: e.target.value})} placeholder={duration}/>
+                      <TextField id="outlined-number" label="Number" type="number" InputLabelProps={{shrink: true}} onInput={(e) => setUpdateData({...updateData, duration: e.target.value})} placeholder={duration} />
                         <p> mins </p>
                       </td>
                     </tr>
