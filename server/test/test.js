@@ -12,7 +12,6 @@ describe('Should get all recipes from a user', async () => {
             },
             mode: 'cors',
         });
-        console.log(response);
         expect(response.StatusCode).toEqual(200);
         expect(response.type).toEqual('json');
         expect(response.body).toHaveProperty('Result');
@@ -33,7 +32,6 @@ describe('Should get a token for a given credentials', async() => {
                 }`
             }
         })
-        console.log(response);
         expect(response.StatusCode).toEqual(200);
         expect(response.type).toEqual('json');
         expect(response.body).toHaveProperty('Result.token')
