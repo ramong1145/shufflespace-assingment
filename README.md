@@ -1,4 +1,10 @@
 # Usage
+To install dependencies:
+
+```bash
+npm install
+```
+
 To start the application you need to place a .env file in the root directory:
 
 .env
